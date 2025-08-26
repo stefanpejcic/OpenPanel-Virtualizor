@@ -1,0 +1,19 @@
+{
+  "virt_touche": {
+    "supported_os": [
+      "Ubuntu 22.04",
+      "Ubuntu 24.04",
+      "Debian 11",
+      "Debian 12",
+      "AlmaLinux 9.5",
+      "RockyLinux 9.3",
+      "RockyLinux 9.6",
+      "CentOS 9.5"
+    ],
+    "data": {
+      "link": "your_customize_link:0000",
+      "uname": "testuser",
+      "pass": "Yourpass@12"
+    }
+  }
+}
