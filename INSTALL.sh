@@ -38,6 +38,31 @@ cp virt_openpanel.sh /usr/local/virtualizor/hooks/virt_openpanel.sh
 cp virt_openpanel.png /usr/local/virtualizor/enduser/themes/default/images/virt_openpanel.png
 cp openpanel_supported_os.json /usr/local/virtualizor/openpanel_supported_os.json
 
-#5. that's it
-echo "Done"
-exit 0
+#5. check
+FILES=(
+    "/usr/local/virtualizor/hooks/virt_openpanel.sh"
+    "/usr/local/virtualizor/enduser/themes/default/images/virt_openpanel.png"
+    "/usr/local/virtualizor/openpanel_supported_os.json"
+)
+
+missing=false
+echo
+echo "Checking if installation succeded.."
+for f in "${FILES[@]}"; do
+    if [[ -f "$f" ]]; then
+        echo "[✔] $f"
+    else
+        echo "[✖] $f"
+        missing=true
+    fi
+done
+if [[ "$missing" = true ]]; then
+    echo
+    echo "[⚠️] Some files are missing. Please re-run the script with"
+    exit 1
+else
+    echo
+    echo "[✅] All files copied successfully."
+    echo "Done."
+    exit 0
+fi
