@@ -53,10 +53,11 @@ cp "$JSON"   "$VIRTUALIZOR_PATH/$JSON"
 
 #5. check
 FILES=(
-    "/usr/local/virtualizor/hooks/virt_openpanel.sh"
-    "/usr/local/virtualizor/enduser/themes/default/images/virt_openpanel.png"
-    "/usr/local/virtualizor/openpanel_supported_os.json"
+    "$VIRTUALIZOR_PATH/hooks/${SCRIPT}"
+    "$VIRTUALIZOR_PATH/enduser/themes/default/images/${IMAGE}"
+    "$VIRTUALIZOR_PATH/${JSON}"
 )
+
 
 missing=false
 x_command="bash -x <(curl -sSL https://raw.githubusercontent.com/$GITHUB/$REPOSITORY/refs/heads/main/INSTALL.sh)"
