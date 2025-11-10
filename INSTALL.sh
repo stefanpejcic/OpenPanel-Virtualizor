@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 
-readonly GITHUB_REPO="https://github.com/stefanpejcic/OpenPanel-Virtualizor"
+readonly GITHUB="stefanpejcic" # might be org eventually
+readonly REPOSITORY="OpenPanel-Virtualizor"
 
 #1. check requirements
 if [[ $EUID -ne 0 ]]; then
@@ -20,20 +21,21 @@ fi
 cleanup() {
     echo
     echo "Cleaning up..."
-    rm -rf "/tmp/OpenPanel-Virtualizor"
+    rm -rf "/tmp/$REPOSITORY"
 }
 
 trap cleanup EXIT INT TERM
 
-#3. clone feom github
+#3. clone from github
 echo
-echo "Clonning $GITHUB_REPO"
+echo "Clonning $GITHUB/$REPOSITORY"
 cd /tmp
-git clone "$GITHUB_REPO"
+git clone "https://github.com/$GITHUB/$REPOSITORY"
 
 #4. https://youtu.be/tw429JGL5zo
 echo
 echo "Setup according to https://www.virtualizor.com/docs/admin/adding-custom-control-panel/"
+cd "$REPOSITORY"
 cp virt_openpanel.sh /usr/local/virtualizor/hooks/virt_openpanel.sh
 cp virt_openpanel.png /usr/local/virtualizor/enduser/themes/default/images/virt_openpanel.png
 cp openpanel_supported_os.json /usr/local/virtualizor/openpanel_supported_os.json
@@ -46,7 +48,7 @@ FILES=(
 )
 
 missing=false
-x_command="bash -x <(curl -sSL https://raw.githubusercontent.com/stefanpejcic/OpenPanel-Virtualizor/refs/heads/main/INSTALL.sh)"
+x_command="bash -x <(curl -sSL https://raw.githubusercontent.com/$GITHUB/$REPOSITORY/refs/heads/main/INSTALL.sh)"
 
 echo
 echo "Checking files.."
@@ -60,7 +62,7 @@ for f in "${FILES[@]}"; do
 done
 if [[ "$missing" = true ]]; then
     echo
-    echo "[FAILED] Please re-run the script with this command and share it's output on community.openpanel.org"
+    echo "[FAILED] Please re-run this command and share it's output on community.openpanel.org"
     echo
     echo "$x_command"
     exit 1
