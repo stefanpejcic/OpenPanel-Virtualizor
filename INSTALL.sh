@@ -80,7 +80,7 @@ if [[ "$missing" = true ]]; then
     exit 1
 else
     echo
-    echo "[OK] Installation completed successfully, OpenPanel is now available on your Virtualizor server."
+    echo "[OK] Installation completed successfully, $PANEL is now available on your Virtualizor server."
     exit 0
 fi
 
