@@ -1,9 +1,12 @@
 #!/bin/bash
 set -e
 
+readonly PANEL="openpanel"
 readonly GITHUB="stefanpejcic" # might be org eventually
 readonly REPOSITORY="OpenPanel-Virtualizor"
+readonly VIRTUALIZOR_PATH="/usr/local/virtualizor"
 
+ 
 #1. check requirements
 if [[ $EUID -ne 0 ]]; then
     echo "[✖] This script must be run as root!"
@@ -13,9 +16,10 @@ fi
 if command -v virtualizor >/dev/null 2>&1; then
     echo "[ OK ] Virtualizor detected - proceeding with the install.."
 else
-    echo "[FAIL] Virtualizor binary not found! Is this a Virtualizor master server?"
+    echo "[FAILED] Virtualizor binary not found! Is this a Virtualizor master server?"
     exit 1
 fi
+
 
 #2. set cleanup
 cleanup() {
@@ -26,19 +30,26 @@ cleanup() {
 
 trap cleanup EXIT INT TERM
 
+
 #3. clone from github
 echo
 echo "Clonning $GITHUB/$REPOSITORY"
 cd /tmp
 git clone "https://github.com/$GITHUB/$REPOSITORY"
 
+
 #4. https://youtu.be/tw429JGL5zo
 echo
 echo "Setup according to https://www.virtualizor.com/docs/admin/adding-custom-control-panel/"
+SCRIPT="virt_${PANEL}.sh"
+IMAGE="virt_${PANEL}.png"
+JSON="${PANEL}_supported_os.json"
+
 cd "$REPOSITORY"
-cp virt_openpanel.sh /usr/local/virtualizor/hooks/virt_openpanel.sh
-cp virt_openpanel.png /usr/local/virtualizor/enduser/themes/default/images/virt_openpanel.png
-cp openpanel_supported_os.json /usr/local/virtualizor/openpanel_supported_os.json
+cp "$SCRIPT" "$VIRTUALIZOR_PATH/hooks/$SCRIPT"
+cp "$IMAGE"  "$VIRTUALIZOR_PATH/enduser/themes/default/images/$IMAGE"
+cp "$JSON"   "$VIRTUALIZOR_PATH/$JSON"
+
 
 #5. check
 FILES=(
@@ -71,3 +82,4 @@ else
     echo "[OK] Installation completed successfully, OpenPanel is now available on your Virtualizor server."
     exit 0
 fi
+
