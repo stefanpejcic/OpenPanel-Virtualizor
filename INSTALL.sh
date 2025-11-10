@@ -10,9 +10,9 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 if command -v virtualizor >/dev/null 2>&1; then
-    echo "[✔] Virtualizor detected - proceeding with the install.."
+    echo "[ OK ] Virtualizor detected - proceeding with the install.."
 else
-    echo "[✖] Virtualizor binary not found! Is this a Virtualizor master server?"
+    echo "[FAIL] Virtualizor binary not found! Is this a Virtualizor master server?"
     exit 1
 fi
 
@@ -46,23 +46,26 @@ FILES=(
 )
 
 missing=false
+x_command="bash -x <(curl -sSL https://raw.githubusercontent.com/stefanpejcic/OpenPanel-Virtualizor/refs/heads/main/INSTALL.sh)"
+
 echo
-echo "Checking if installation succeded.."
+echo "Checking files.."
 for f in "${FILES[@]}"; do
     if [[ -f "$f" ]]; then
-        echo "[✔] $f"
+        echo " [✔] $f"
     else
-        echo "[✖] $f"
+        echo " [✖] $f"
         missing=true
     fi
 done
 if [[ "$missing" = true ]]; then
     echo
-    echo "[⚠️] Some files are missing. Please re-run the script with"
+    echo "[FAILED] Please re-run the script with this command and share it's output on community.openpanel.org"
+    echo
+    echo "$x_command"
     exit 1
 else
     echo
-    echo "[✅] All files copied successfully."
-    echo "Done."
+    echo "[OK] Installation completed successfully, OpenPanel is now available on your Virtualizor server."
     exit 0
 fi
