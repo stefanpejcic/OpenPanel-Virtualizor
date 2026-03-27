@@ -5,9 +5,12 @@
       "Ubuntu 24.04",
       "Debian 11",
       "Debian 12",
+      "Debian 13",
       "AlmaLinux 9.5",
+      "AlmaLinux 10",      
       "RockyLinux 9.3",
       "RockyLinux 9.6",
+      "RockyLinux 10",
       "CentOS 9.5"
     ],
     "data": {
